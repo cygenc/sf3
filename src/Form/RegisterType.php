@@ -21,7 +21,6 @@ class RegisterType extends AbstractType
         $builder->add('email', EmailType::class, ['label' => 'Email']);
         $builder->add('username', TextType::class, ['label' => 'Identifiant']);
         $builder->add('password', PasswordType::class, ['label' => 'Mot de passe']);
-        //$builder->add('isRegistering', HiddenType::class, ['empty_data' => true,]);
         $builder->add('add', SubmitType::class, [
             'label' => 'Enregistrer',
             'attr'  => [
