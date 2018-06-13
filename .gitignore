@@ -21,3 +21,5 @@
 
 toInstall.txt
 .DS_Store
+
+/config/packages/parameters.yaml
