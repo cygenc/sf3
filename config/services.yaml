@@ -1,7 +1,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    locale: 'fr'
+    db_user: 'root'
+    db_password: ''
+    db_name: 'sf3'
+    db_host: 'localhost'
 
 services:
     # default configuration for services in *this* file

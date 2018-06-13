@@ -59,6 +59,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "nikic/php-parser": {
+        "version": "v4.0.2"
+    },
     "ocramius/package-versions": {
         "version": "1.2.0"
     },
@@ -191,13 +194,22 @@
     "symfony/polyfill-apcu": {
         "version": "v1.6.0"
     },
+    "symfony/polyfill-ctype": {
+        "version": "v1.8.0"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.6.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.6.0"
     },
+    "symfony/polyfill-php56": {
+        "version": "v1.6.0"
+    },
     "symfony/polyfill-php70": {
+        "version": "v1.6.0"
+    },
+    "symfony/polyfill-util": {
         "version": "v1.6.0"
     },
     "symfony/process": {
@@ -216,6 +228,18 @@
             "branch": "master",
             "version": "3.3",
             "ref": "a249484db698d1a847a30291c8f732414ac47e25"
+        }
+    },
+    "symfony/security": {
+        "version": "v3.4.3"
+    },
+    "symfony/security-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "34eb245ce4194e7ae713558084180e2c532e7afd"
         }
     },
     "symfony/stopwatch": {
