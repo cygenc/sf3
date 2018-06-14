@@ -10,3 +10,5 @@ parameters:
     mailer_host:       127.0.0.1:1025
     mailer_user:       null
     mailer_password:   null
+
+    secret: ThisTokenIsNotSoSecretChangeIt
