@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends Controller
 {
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/a", name="admin")
      */
     public function admin()
     {

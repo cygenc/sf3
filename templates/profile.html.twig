@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+        <div class="col-md-8 col-md-offset-2">
+            {{ form_start(form, {'class' : 'form-signin'}) }}
+            {{ form_errors(form) }}
+                {{ form_widget(form) }}
+                {{ form_row(form.add) }}
+              {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+
+{% endblock %}

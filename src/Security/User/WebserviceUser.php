@@ -67,7 +67,9 @@ class WebserviceUser implements AdvancedUserInterface, EquatableInterface, \Seri
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        if ($password) {
+            $this->password = $password;
+        }
 
         return $this;
     }
