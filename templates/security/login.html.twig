@@ -24,6 +24,8 @@
             <input type="checkbox" id="remember_me" name="_remember_me" />
             <label for="remember_me">Maintenir la connexion</label>
 
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
             <div class="form-group">
                 <button type="submit" class="btn btn-success btn-block btn">Connexion</button>
             </div>
