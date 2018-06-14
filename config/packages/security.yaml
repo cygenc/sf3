@@ -1,14 +1,13 @@
 security:
 
     encoders:
-        App\Entity\User:
+        App\Security\User\WebserviceUser:
             algorithm: bcrypt
             cost: 12
 
     providers:
-        db_provider:
-            entity:
-                class: App:User
+        webservice:
+            id: App\Security\User\WebserviceUserProvider
 
     firewalls:
         dev:
@@ -17,7 +16,7 @@ security:
 
         main:
             pattern:    ^/
-            provider: db_provider
+            provider: webservice
             anonymous: ~
             form_login:
                 login_path: login
