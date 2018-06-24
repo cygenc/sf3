@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends Controller
 {
     /**
-     * @Route("u/profile", name="profile")
+     * @Route("/profile", name="profile")
      */
     public function profil(Request $request)
     {
