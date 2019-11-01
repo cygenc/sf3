@@ -65,6 +65,18 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "easycorp/easy-log-handler": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
+        },
+        "files": [
+            "config/packages/dev/easy_log_handler.yaml"
+        ]
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -130,6 +142,21 @@
     },
     "symfony/debug": {
         "version": "v3.4.3"
+    },
+    "symfony/debug-bundle": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "f8863cbad2f2e58c4b65fa1eac892ab189971bea"
+        },
+        "files": [
+            "config/packages/dev/debug.yaml"
+        ]
+    },
+    "symfony/debug-pack": {
+        "version": "v1.0.7"
     },
     "symfony/dependency-injection": {
         "version": "v3.4.3"
@@ -219,6 +246,9 @@
     },
     "symfony/options-resolver": {
         "version": "v3.4.3"
+    },
+    "symfony/orm-pack": {
+        "version": "v1.0.7"
     },
     "symfony/phpunit-bridge": {
         "version": "3.3",
@@ -331,6 +361,9 @@
             "ref": "f75ac166398e107796ca94cc57fa1edaa06ec47f"
         }
     },
+    "symfony/twig-pack": {
+        "version": "v1.0.0"
+    },
     "symfony/validator": {
         "version": "v3.4.3"
     },
@@ -387,6 +420,9 @@
     },
     "symfony/yaml": {
         "version": "v3.4.3"
+    },
+    "twig/extra-bundle": {
+        "version": "v2.12.1"
     },
     "twig/twig": {
         "version": "v2.4.4"

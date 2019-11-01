@@ -14,7 +14,6 @@ class DefaultController extends Controller
      */
     public function index()
     {
-        dump($this->getUser());
         return $this->render('index.html.twig');
     }
 }
