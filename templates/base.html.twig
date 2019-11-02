@@ -15,14 +15,14 @@
 
             <div class="collapse navbar-collapse" id="navbars">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item{{ include('components/_active_menu.html.twig', {'route': 'login'}) }}"><a class="nav-link" href="{{ path('login') }}">Login</a></li>
-                    <li class="nav-item{{ include('components/_active_menu.html.twig', {'route': 'register'}) }}"><a class="nav-link" href="{{ path('register') }}">Register</a></li>
-                    <li class="nav-item{{ include('components/_active_menu.html.twig', {'route': 'admin_dashboard'}) }}"><a class="nav-link" href="{{ path('admin_dashboard') }}">Admin</a></li>
+                    <li class="nav-item{{ is_active('login') }}"><a class="nav-link" href="{{ path('login') }}">Login</a></li>
+                    <li class="nav-item{{ is_active('register') }}"><a class="nav-link" href="{{ path('register') }}">Register</a></li>
+                    <li class="nav-item{{ is_active('admin_dashboard') }}"><a class="nav-link" href="{{ path('admin_dashboard') }}">Admin</a></li>
                     {% if app.user %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-user"></span></a>
                             <div class="dropdown-menu" aria-labelledby="user">
-                                <a class="dropdown-item{{ include('components/_active_menu.html.twig', {'route': 'profile'}) }}" href="{{ path('profile') }}">Profil</a>
+                                <a class="dropdown-item{{ is_active('profile') }}" href="{{ path('profile') }}">Profil</a>
                                 <a class="dropdown-item" href="{{ path('logout') }}">Logout</a>
                             </div>
                         </li>
