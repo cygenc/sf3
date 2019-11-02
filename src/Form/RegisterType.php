@@ -24,7 +24,7 @@ class RegisterType extends AbstractType
         $builder->add('add', SubmitType::class, [
             'label' => 'Enregistrer',
             'attr'  => [
-                'class' => 'btn btn-success btn-block'
+                'class' => 'btn-success btn-block'
             ],
         ]);
     }

@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Security\User\WebserviceUser;
+use App\Validator\PhoneNumber as AssertPhoneNumber;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email déjà pris")
  * @UniqueEntity(fields="username", message="Identifiant déjà pris")
+ * @ORM\HasLifecycleCallbacks
  */
 class User extends WebserviceUser
 {
@@ -51,46 +55,9 @@ class User extends WebserviceUser
     private $birthday;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $address;
-
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $address2;
-
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $city;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $zipCode;
-
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $country;
-
-    /**
      *  @ORM\Column(type="datetime", nullable=true)
      */
     private $lastLogin;
-
-    /**
-     * @Assert\DateTime()
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-
-     * @Assert\DateTime()
-     */
-    private $updatedAt;
 
     /**
      * @ORM\Column(type="boolean")
@@ -98,14 +65,38 @@ class User extends WebserviceUser
     protected $isActive;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $addresses;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     * @AssertPhoneNumber()
+     */
+    private $phoneNumber;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
+     */
+    private $updatedAt;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
-        $this->roles     = ['ROLE_USER'];
-        $this->salt      = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->addresses = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->isActive  = true;
+        $this->roles     = ['ROLE_USER'];
+        $this->salt      = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 
     /**
@@ -116,280 +107,163 @@ class User extends WebserviceUser
         $this->updatedAt = new \DateTime();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFullName()
+    public function __toString()
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
-    
-
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param mixed $email
-     *
-     * @return self
-     */
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGender()
+    public function getGender(): ?string
     {
         return $this->gender;
     }
 
-    /**
-     * @param mixed $gender
-     *
-     * @return self
-     */
-    public function setGender($gender)
+    public function setGender(?string $gender): self
     {
         $this->gender = $gender;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    /**
-     * @param mixed $firstName
-     *
-     * @return self
-     */
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    /**
-     * @param mixed $lastName
-     *
-     * @return self
-     */
-    public function setLastName($lastName)
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBirthday()
+    public function getBirthday(): ?\DateTimeInterface
     {
         return $this->birthday;
     }
 
-    /**
-     * @param mixed $birthday
-     *
-     * @return self
-     */
-    public function setBirthday($birthday)
+    public function setBirthday(?\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAddress()
+    public function getLastLogin(): ?\DateTimeInterface
     {
-        return $this->address;
+        return $this->lastLogin;
     }
 
-    /**
-     * @param mixed $address
-     *
-     * @return self
-     */
-    public function setAddress($address)
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
-        $this->address = $address;
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return Collection|Address[]
      */
-    public function getAddress2()
+    public function getAddresses(): Collection
     {
-        return $this->address2;
+        return $this->addresses;
     }
 
-    /**
-     * @param mixed $address2
-     *
-     * @return self
-     */
-    public function setAddress2($address2)
+    public function addAddress(Address $address): self
     {
-        $this->address2 = $address2;
+        if (!$this->addresses->contains($address)) {
+            $this->addresses[] = $address;
+            $address->setUser($this);
+        }
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCity()
+    public function removeAddress(Address $address): self
     {
-        return $this->city;
-    }
-
-    /**
-     * @param mixed $city
-     *
-     * @return self
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
+        if ($this->addresses->contains($address)) {
+            $this->addresses->removeElement($address);
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getZipCode()
+    public function getPhoneNumber(): ?string
     {
-        return $this->zipCode;
+        return $this->phoneNumber;
     }
 
-    /**
-     * @param mixed $zipCode
-     *
-     * @return self
-     */
-    public function setZipCode($zipCode)
+    public function setPhoneNumber(?string $phoneNumber): self
     {
-        $this->zipCode = $zipCode;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param mixed $country
-     *
-     * @return self
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param mixed $createdAt
-     *
-     * @return self
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param mixed $updatedAt
-     *
-     * @return self
-     */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function isActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * @param mixed $isActive
-     *
-     * @return self
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
 
         return $this;
     }

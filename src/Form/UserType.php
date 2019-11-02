@@ -3,13 +3,16 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Form\AddressType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,22 +31,25 @@ class UserType extends AbstractType
         ]);
         $builder->add('firstName', TextType::class, ['label' => 'Prénom']);
         $builder->add('lastName', TextType::class, ['label' => 'Nom']);
+        $builder->add('birthday', BirthdayType::class, [
+            'label'  => 'Date de naissance',
+            'widget' => 'single_text'
+        ]);
+        $builder->add('phoneNumber', TelType::class, [
+            'label'    => 'Mobile',
+            'attr'     => ['max' => 10],
+        ]);
         $builder->add('email', EmailType::class, ['label' => 'Email']);
         $builder->add('username', TextType::class, ['label' => 'Identifiant']);
         $builder->add('password', PasswordType::class, ['label' => 'Mot de passe', 'required' => false]);
-        $builder->add('address', TextType::class, ['label' => 'Adresse']);
-        $builder->add('address2', TextType::class, ['label' => 'Adresse 2', 'required' => false]);
-        $builder->add('zipCode', TextType::class, ['label' => 'Code postal']);
-        $builder->add('city', TextType::class, ['label' => 'Ville']);
-        $builder->add('country', CountryType::class, ['label' => 'Pays']);
-        $builder->add('birthday', BirthdayType::class, [
-            'label' => 'Date de naissance',
-            'widget' => 'single_text'
+        $builder->add('addresses', CollectionType::class, [
+            'label'      => 'Adresse',
+            'entry_type' => AddressType::class,
         ]);
         $builder->add('add', SubmitType::class, [
             'label' => 'Enregistrer',
             'attr'  => [
-                'class' => 'btn btn-success btn-block'
+                'class' => 'btn-success'
             ],
         ]);
     }

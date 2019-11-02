@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class ProfileController extends Controller
+class ProfileController extends AbstractController
 {
     /**
      * @Route("/profile", name="profile")
@@ -17,6 +18,11 @@ class ProfileController extends Controller
     public function profil(EntityManagerInterface $em, Request $request)
     {
         $user = $this->getUser();
+
+        if (!$user->getAddresses()->getValues()) {
+            $user->addAddress(new Address);
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
