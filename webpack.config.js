@@ -34,8 +34,8 @@ Encore.reset();
 Encore
     .setOutputPath('public/build/admin/')
     .setPublicPath('/build/admin')
-    .addEntry('js/admin', './assets/js/admin.js')
-    .addStyleEntry('css/admin', './assets/css/admin.scss')
+    .addEntry('js/admin', './assets/js/admin/admin.js')
+    .addStyleEntry('css/admin', './assets/css/admin/admin.scss')
     .enableSassLoader()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
