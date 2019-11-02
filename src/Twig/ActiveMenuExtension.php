@@ -30,9 +30,15 @@ class ActiveMenuExtension extends AbstractExtension
         ];
     }
 
-    public function isActive(string $route): ?string
+    public function isActive($routes): ?string
     {
-        if ($route === $this->request->attributes->get('_route')) {
+        if (is_array($routes)) {
+            foreach ($routes as $route) {
+                if ($route === $this->request->attributes->get('_route')) {
+                    return ' active';
+                }
+            }
+        } elseif (is_string($routes) && $routes === $this->request->attributes->get('_route')) {
             return ' active';
         }
 
