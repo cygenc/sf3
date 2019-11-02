@@ -18,3 +18,21 @@
     </div>
 
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        let priceEt = document.getElementById('product_priceEt')
+        let taxRule = document.getElementById('product_taxRule').value
+
+        priceEt.addEventListener('change', function (e) {
+            let priceEt = e.target.value
+            priceEt = parseFloat(priceEt.replace(',', '.'))
+
+            let priceIt = priceEt * (1 + (taxRule / 100))
+            priceIt = priceIt.toFixed(2)
+            priceIt = priceIt.replace('.', ',')
+
+            document.getElementById('product_priceIt').value = priceIt
+        })
+    </script>
+{% endblock %}

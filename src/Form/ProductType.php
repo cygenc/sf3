@@ -18,7 +18,7 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class, [
-            'label' => 'Titre',
+            'label' => 'Nom',
         ]);
         $builder->add('reference', TextType::class, [
             'label' => 'Réference',
@@ -31,13 +31,16 @@ class ProductType extends AbstractType
             'label'    => 'Prix HT',
         ]);
         $builder->add('priceIt', MoneyType::class, [
+            'attr'     => [
+                'readonly' => true
+            ],
             'currency' => 'EUR',
             'label'    => 'Prix TTC',
-            'attr'  => [
-                'class' => 'disabled'
-            ],
         ]);
         $builder->add('taxRule', ChoiceType::class, [
+            'attr'    => [
+                'readonly' => true
+            ],
             'choices' => [
                 'Taux standard (20%)' => 20
             ],
