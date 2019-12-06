@@ -95,7 +95,7 @@ class User extends WebserviceUser
         $this->addresses = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->isActive  = true;
-        $this->roles     = ['ROLE_USER'];
+        $this->roles     = ['ROLE_USER', 'ROLE_ADMIN'];
         $this->salt      = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 

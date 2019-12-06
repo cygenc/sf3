@@ -17,34 +17,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class UsernameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('gender', ChoiceType::class, [
-            'label'    => 'Genre',
-            'expanded' => true,
-            'choices'  => [
-                'Masculin' => 'male',
-                'Féminin'  => 'female',
-            ],
-        ]);
-        $builder->add('firstName', TextType::class, ['label' => 'Prénom']);
-        $builder->add('lastName', TextType::class, ['label' => 'Nom']);
-        $builder->add('birthday', BirthdayType::class, [
-            'label'  => 'Date de naissance',
-            'widget' => 'single_text'
-        ]);
-        $builder->add('phoneNumber', TelType::class, [
-            'label'    => 'Mobile',
-            'attr'     => ['max' => 10],
-        ]);
         $builder->add('email', EmailType::class, ['label' => 'Email']);
         $builder->add('username', TextType::class, ['label' => 'Identifiant']);
-        $builder->add('password', PasswordType::class, ['label' => 'Mot de passe', 'required' => false]);
-        $builder->add('addresses', CollectionType::class, [
-            'label'      => 'Adresse',
-            'entry_type' => AddressType::class,
+        $builder->add('password', PasswordType::class, [
+            'label'  => 'Mot de passe',
+            'mapped' => false,
         ]);
         $builder->add('add', SubmitType::class, [
             'label' => 'Enregistrer',

@@ -7,16 +7,9 @@
             <div class="col-md-8">
                 {{ form_start(form, {'class' : 'form-signin'}) }}
                     {{ form_errors(form) }}
-                    {{ form_row(form.gender) }}
-                    {{ form_row(form.firstName) }}
-                    {{ form_row(form.lastName) }}
-                    {{ form_row(form.birthday) }}
-                    {{ form_row(form.phoneNumber) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.username) }}
-                    {{ form_row(form.password) }}
+                    {{ form_widget(form) }}
 
-                    {% for addressField in form.addresses %}
+                    {# {% for addressField in form.addresses %}
                         {{ form_row(addressField.alias) }}
                         {{ form_row(addressField.address) }}
                         {{ form_row(addressField.address2) }}
@@ -25,9 +18,8 @@
                         {{ form_row(addressField.country) }}
                     {% endfor %}
 
-                    {{ form_row(form.add) }}
+                    {{ form_row(form.add) }} #}
                     {{ form_rest(form) }}
-
                 {{ form_end(form) }}
             </div>
         </div>

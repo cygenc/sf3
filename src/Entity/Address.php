@@ -50,6 +50,11 @@ class Address
     private $country;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $default;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="Addresses")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -158,6 +163,30 @@ class Address
         return $this;
     }
 
+    public function isDefault(): ?bool
+    {
+        return $this->default;
+    }
+
+    public function setDefault(bool $default): self
+    {
+        $this->default = $default;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -178,18 +207,6 @@ class Address
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

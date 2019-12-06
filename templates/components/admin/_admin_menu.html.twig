@@ -38,10 +38,17 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link{{ is_active('profile') }}" href="{{ path('profile') }}">
-                    <span data-feather="user"></span>
-                    Profile
-                </a>
+                    <a class="nav-link dropdown dropdown-toggle{{ is_active(['profile', 'username', 'password', 'addresses']) }}" href="#" role="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span data-feather="user"></span>
+                        Mon compte
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                        <a class="dropdown-item{{ is_active('profile') }}" href="{{ path('profile') }}">Profil</a>
+                        <a class="dropdown-item{{ is_active('username') }}" href="{{ path('username') }}">Identifiant</a>
+                        <a class="dropdown-item{{ is_active('password') }}" href="{{ path('password') }}">Mot de passe</a>
+                        <a class="dropdown-item{{ is_active('addresses') }}" href="{{ path('addresses') }}">Adresses</a>
+                    </div>
             </li>
         </ul>
 

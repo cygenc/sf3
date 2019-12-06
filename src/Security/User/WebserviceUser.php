@@ -17,7 +17,7 @@ class WebserviceUser implements AdvancedUserInterface, EquatableInterface, \Seri
     protected $username;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
     protected $password;
@@ -125,7 +125,7 @@ class WebserviceUser implements AdvancedUserInterface, EquatableInterface, \Seri
      * @return self
      */
     public function removeRole($role) {
-        
+
         if ($this->hasRole($role)) {
             unset($this->roles[array_search($role, $this->roles)]);
         }

@@ -2,8 +2,8 @@ security:
 
     encoders:
         App\Security\User\WebserviceUser:
-            algorithm: bcrypt
-            cost: 12
+            algorithm: auto
+            cost: 15
 
     providers:
         webservice:
