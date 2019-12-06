@@ -1,4 +1,7 @@
 {
+    "name": "Test Symfony",
+    "description": "Project to test Symfony",
+    "version": "1.0.0-dev",
     "type": "project",
     "license": "proprietary",
     "require": {
