@@ -10,7 +10,7 @@
         "doctrine/orm": "^2.6",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "^4.4",
-        "symfony/cache": "^4.4",
+        "symfony/cache": "^5.0",
         "symfony/console": "^4.4",
         "symfony/flex": "^1.4",
         "symfony/form": "^4.4",
