@@ -9,6 +9,9 @@
                 {{ form_errors(form) }}
                     {{ form_widget(form) }}
                 {{ form_rest(form) }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">Enregistrer</button>
+                </div>
                 {{ form_end(form) }}
                 <hr>
                 <p class="text-center">Vous avez déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>

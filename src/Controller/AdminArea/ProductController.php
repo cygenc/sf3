@@ -5,7 +5,6 @@ namespace App\Controller\AdminArea;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +19,7 @@ class ProductController extends AbstractController
     {
         $products = $productRepository->findAll();
 
-        return $this->render('admin/product/products.html.twig', [
+        return $this->render('admin/product/index.html.twig', [
             'products' => $products,
         ]);
     }
@@ -28,7 +27,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/products/add", name="admin_product_add")
      */
-    public function add(EntityManagerInterface $em, Request $request)
+    public function add(Request $request)
     {
         $product = new Product();
         $form    = $this->createForm(ProductType::class, $product);
@@ -36,6 +35,7 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product->setCreatedBy($this->getUser());
+            $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
 
@@ -44,7 +44,7 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('admin_products');
         }
 
-        return $this->render('admin/product/product_add.html.twig', [
+        return $this->render('admin/product/add.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -52,7 +52,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/products/{productId}", name="admin_product_edit"), requirements={"companyId": "\d+"}
      */
-    public function edit(EntityManagerInterface $em, ProductRepository $productRepository, Request $request, $productId)
+    public function edit(ProductRepository $productRepository, Request $request, $productId)
     {
         $product = $productRepository->find($productId);
 
@@ -65,14 +65,14 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product->setUpdatedBy($this->getUser());
-            $em->flush();
+            $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'Le produit a été modifié.');
 
             return $this->redirectToRoute('admin_products');
         }
 
-        return $this->render('admin/product/product_edit.html.twig', [
+        return $this->render('admin/product/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -80,7 +80,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/products/{productId}/delete/{csrf}", name="admin_product_delete"), requirements={"companyId": "\d+"}
      */
-    public function delete(EntityManagerInterface $em, ProductRepository $productRepository, $productId, $csrf)
+    public function delete(ProductRepository $productRepository, $productId, $csrf)
     {
         if (!$this->isCsrfTokenValid('delete-product', $csrf)) {
             throw new InvalidCsrfTokenException();
@@ -92,6 +92,7 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('Ce produit n\'existe pas/plus !');
         }
 
+        $em = $this->getDoctrine()->getManager();
         $em->remove($product);
         $em->flush();
 

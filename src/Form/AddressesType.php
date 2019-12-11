@@ -25,12 +25,6 @@ class AddressesType extends AbstractType
             'label'      => 'Adresse',
             'entry_type' => AddressType::class,
         ]);
-        $builder->add('add', SubmitType::class, [
-            'label' => 'Enregistrer',
-            'attr'  => [
-                'class' => 'btn-success'
-            ],
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

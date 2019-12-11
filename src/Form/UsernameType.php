@@ -27,12 +27,6 @@ class UsernameType extends AbstractType
             'label'  => 'Mot de passe',
             'mapped' => false,
         ]);
-        $builder->add('add', SubmitType::class, [
-            'label' => 'Enregistrer',
-            'attr'  => [
-                'class' => 'btn-success'
-            ],
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

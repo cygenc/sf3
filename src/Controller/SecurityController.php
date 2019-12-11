@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Form\RegisterType;
 use App\Security\LoginFormAuthenticator;
 use App\Service\User\UserManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,7 +42,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(EntityManagerInterface $em, Request $request, UserManager $userManager)
+    public function register(Request $request, UserManager $userManager)
     {
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);

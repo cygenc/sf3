@@ -21,12 +21,6 @@ class RegisterType extends AbstractType
         $builder->add('email', EmailType::class, ['label' => 'Email']);
         $builder->add('username', TextType::class, ['label' => 'Identifiant']);
         $builder->add('password', PasswordType::class, ['label' => 'Mot de passe']);
-        $builder->add('add', SubmitType::class, [
-            'label' => 'Enregistrer',
-            'attr'  => [
-                'class' => 'btn-success btn-block'
-            ],
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -11,18 +11,17 @@ use App\Form\RegisterType;
 use App\Form\UsernameType;
 use App\Service\User\UserHelper;
 use App\Service\User\UserManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class AccountController extends AbstractController
+class UserController extends AbstractController
 {
     /**
      * @Route("/account/profile", name="profile")
      */
-    public function profile(EntityManagerInterface $em, Request $request)
+    public function profile(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -30,7 +29,7 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Le profil a été mis à jour.');
             return $this->redirect($request->getUri());
         }
@@ -65,7 +64,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/account/addresses", name="addresses")
      */
-    public function addresses(EntityManagerInterface $em, Request $request)
+    public function addresses(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -80,7 +79,7 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Les adresses ont été mise à jour.');
             return $this->redirect($request->getUri());
         }
@@ -93,7 +92,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/account/username", name="username")
      */
-    public function username(EntityManagerInterface $em, Request $request, UserHelper $userHelper)
+    public function username(Request $request, UserHelper $userHelper)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -104,7 +103,7 @@ class AccountController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $form->get('password')->getData();
             if ($userHelper->isPasswordValid($user, $password)) {
-                $em->flush();
+                $this->getDoctrine()->getManager()->flush();
                 $this->addFlash('success', 'Les identifiants de connexion ont été mis à jour.');
                 return $this->redirect($request->getUri());
             } else {

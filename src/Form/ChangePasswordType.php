@@ -34,11 +34,5 @@ class ChangePasswordType extends AbstractType
             'second_options'  => ['label' => 'Confirmation'],
             'type'            => PasswordType::class,
         ]);
-        $builder->add('add', SubmitType::class, [
-            'label' => 'Enregistrer',
-            'attr'  => [
-                'class' => 'btn-success'
-            ],
-        ]);
     }
 }
