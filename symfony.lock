@@ -101,6 +101,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/event-dispatcher": {
+        "version": "1.0.0"
+    },
     "psr/log": {
         "version": "1.0.2"
     },
@@ -139,9 +142,6 @@
             "version": "3.3",
             "ref": "9f94d3ea453cd8a3b95db7f82592d7344fe3a76a"
         }
-    },
-    "symfony/debug": {
-        "version": "v3.4.3"
     },
     "symfony/debug-bundle": {
         "version": "4.1",
@@ -249,9 +249,6 @@
     },
     "symfony/options-resolver": {
         "version": "v3.4.3"
-    },
-    "symfony/orm-pack": {
-        "version": "v1.0.7"
     },
     "symfony/phpunit-bridge": {
         "version": "3.3",
@@ -364,9 +361,6 @@
             "ref": "f75ac166398e107796ca94cc57fa1edaa06ec47f"
         }
     },
-    "symfony/twig-pack": {
-        "version": "v1.0.0"
-    },
     "symfony/validator": {
         "version": "v3.4.3"
     },
@@ -424,20 +418,11 @@
     "symfony/yaml": {
         "version": "v3.4.3"
     },
-    "twig/extensions": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a86723ee8d8b2f9437c8ce60a5546a1c267da5ed"
-        },
-        "files": [
-            "config/packages/twig_extensions.yaml"
-        ]
-    },
     "twig/extra-bundle": {
         "version": "v2.12.1"
+    },
+    "twig/intl-extra": {
+        "version": "v3.0.0"
     },
     "twig/twig": {
         "version": "v2.4.4"
