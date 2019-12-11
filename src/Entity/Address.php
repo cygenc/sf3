@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="addresses")
@@ -62,14 +61,11 @@ class Address
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\DateTime()
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-
-     * @Assert\DateTime()
      */
     private $updatedAt;
 

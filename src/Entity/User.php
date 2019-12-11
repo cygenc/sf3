@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
-use App\Security\User\WebserviceUser;
 use App\Validator\PhoneNumber as AssertPhoneNumber;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,20 +18,38 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields="username", message="Identifiant déjà pris")
  * @ORM\HasLifecycleCallbacks
  */
-class User extends WebserviceUser
+class User implements UserInterface, EquatableInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\Email()
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank()
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $password;
 
     /**
      * @ORM\Column(type="string", length=6, nullable=true)
@@ -49,8 +68,6 @@ class User extends WebserviceUser
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @Assert\DateTime()
      */
     private $birthday;
 
@@ -62,7 +79,7 @@ class User extends WebserviceUser
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $isActive;
+    protected $enabled;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
@@ -77,26 +94,21 @@ class User extends WebserviceUser
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\DateTime()
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\DateTime()
      */
     private $updatedAt;
 
-    /**
-     * User constructor.
-     */
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->createdAt = new \DateTime();
-        $this->isActive  = true;
-        $this->roles     = ['ROLE_USER', 'ROLE_ADMIN'];
-        $this->salt      = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->enabled   = true;
+        $this->roles     = ['ROLE_ADMIN'];
+        // $this->salt      = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 
     /**
@@ -127,6 +139,115 @@ class User extends WebserviceUser
         $this->email = $email;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role): self
+    {
+        if (!$this->hasRole($role)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param  string $role
+     * @return self
+     */
+    public function removeRole($role): self
+    {
+
+        if ($this->hasRole($role)) {
+            unset($this->roles[array_search($role, $this->roles)]);
+        }
+
+        return $this;
+    }
+
+    public function hasRole($role): bool
+    {
+        return in_array($role, $this->roles);
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEqualTo(UserInterface $user): bool
+    {
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        if ($this->password !== $user->getPassword()) {
+            return false;
+        }
+
+        // if ($this->salt !== $user->getSalt()) {
+        //     return false;
+        // }
+
+        if ($this->username !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function getGender(): ?string
@@ -189,21 +310,18 @@ class User extends WebserviceUser
         return $this;
     }
 
-    public function getIsActive(): ?bool
+    public function isEnabled(): ?bool
     {
-        return $this->isActive;
+        return $this->enabled;
     }
 
-    public function setIsActive(bool $isActive): self
+    public function setEnabled(bool $enabled): self
     {
-        $this->isActive = $isActive;
+        $this->enabled = $enabled;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Address[]
-     */
     public function getAddresses(): Collection
     {
         return $this->addresses;

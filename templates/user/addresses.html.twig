@@ -1,5 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
+{% block title %}Adresses{% endblock %}
+
 {% block body %}
 
     <div class="container">
@@ -16,9 +18,8 @@
                         {{ form_row(addressField.zipCode) }}
                         {{ form_row(addressField.city) }}
                         {{ form_row(addressField.country) }}
-                    {% endfor %}
+                    {% endfor %} #}
 
-                    {{ form_row(form.add) }} #}
                     {{ form_rest(form) }}
                 {{ form_end(form) }}
             </div>

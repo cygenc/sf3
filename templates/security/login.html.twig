@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Connexion{% endblock %}
+
 {% block body %}
 
     <div class="container">
@@ -12,19 +14,19 @@
                     </div>
                 {% endif %}
 
-                <form action="{{ path('login') }}" method="post">
+                <form method="post">
                     <div class="form-group">
-                        <label for="username" class="control-label required">Identifiant ou Email</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" />
+                        <label for="inputUsername" class="control-label required">Identifiant ou Email</label>
+                        <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="control-label required">Mot de passe</label>
-                        <input type="password" id="password" name="_password" class="form-control" />
+                        <label for="inputPassword" class="control-label required">Mot de passe</label>
+                        <input type="password" id="inputPassword" name="password" class="form-control" required>
                     </div>
 
-                    <input type="checkbox" id="remember_me" name="_remember_me" />
-                    <label for="remember_me">Maintenir la connexion</label>
+                    <input type="checkbox" id="inputRememberMe" name="_remember_me" >
+                    <label for="inputRememberMe">Maintenir la connexion</label>
 
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -33,8 +35,7 @@
                     </div>
 
                     <hr>
-                    <p class="text-center">Pas encore de compte ? <a href="{{ path('register') }}">Inscrivez-vous</a></p>
-
+                    <p class="text-center">Pas encore de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a></p>
                 </form>
             </div>
         </div>

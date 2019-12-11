@@ -8,11 +8,10 @@
                 {{ form_start(form, {'class' : 'form-signin'}) }}
                 {{ form_errors(form) }}
                     {{ form_widget(form) }}
-                    {{ form_row(form.add) }}
                 {{ form_rest(form) }}
                 {{ form_end(form) }}
                 <hr>
-                <p class="text-center">Vous avez déjà un compte ? <a href="{{ path('login') }}">Se connecter</a></p>
+                <p class="text-center">Vous avez déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>
             </div>
         </div>
     </div>

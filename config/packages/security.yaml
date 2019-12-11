@@ -1,13 +1,15 @@
 security:
 
     encoders:
-        App\Security\User\WebserviceUser:
+        App\Entity\User:
             algorithm: auto
-            cost: 15
 
     providers:
-        webservice:
-            id: App\Security\User\WebserviceUserProvider
+        users:
+            entity:
+                class: App\Entity\User
+        app_user_provider:
+            id: App\Security\UserProvider
 
     firewalls:
         dev:
@@ -15,19 +17,23 @@ security:
             security: false
 
         main:
-            pattern:    ^/
-            provider: webservice
+            pattern: ^/
             anonymous: ~
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
             form_login:
-                login_path: login
-                check_path: login
+                login_path: app_login
+                check_path: app_login
                 csrf_token_generator: security.csrf.token_manager
             logout:
-                path:   /logout
-                target: /
+                path:   app_logout
+                target: index
             remember_me:
-                secret:   '%env(APP_SECRET)%'
+                secret:   '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
+                path:     /
 
     access_control:
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }

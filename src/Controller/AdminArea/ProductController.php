@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
 class ProductController extends AbstractController
 {
@@ -81,18 +82,20 @@ class ProductController extends AbstractController
      */
     public function delete(EntityManagerInterface $em, ProductRepository $productRepository, $productId, $csrf)
     {
-        if ($this->isCsrfTokenValid('delete-product', $csrf)) {
-            $product = $productRepository->find($productId);
-
-            if (!$product) {
-                throw $this->createNotFoundException('Ce produit n\'existe pas/plus !');
-            }
-
-            $em->remove($product);
-            $em->flush();
-
-            $this->addFlash('success', 'Le produit a été supprimé.');
+        if (!$this->isCsrfTokenValid('delete-product', $csrf)) {
+            throw new InvalidCsrfTokenException();
         }
+
+        $product = $productRepository->find($productId);
+
+        if (!$product) {
+            throw $this->createNotFoundException('Ce produit n\'existe pas/plus !');
+        }
+
+        $em->remove($product);
+        $em->flush();
+
+        $this->addFlash('success', 'Le produit a été supprimé.');
 
         return $this->redirectToRoute('admin_products');
     }

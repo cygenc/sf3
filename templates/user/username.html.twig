@@ -1,5 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
+{% block title %}Identifiant{% endblock %}
+
 {% block body %}
 
     <div class="container">
@@ -8,9 +10,6 @@
                 {{ form_start(form, {'class' : 'form-signin'}) }}
                     {{ form_errors(form) }}
                     {{ form_widget(form) }}
-                    {# {{ form_row(form.email) }}
-                    {{ form_row(form.username) }}
-                    {{ form_row(form.add) }} #}
                     {{ form_rest(form) }}
                 {{ form_end(form) }}
             </div>
