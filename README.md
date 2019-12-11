@@ -1,2 +1,2 @@
-# sf3
-Test Symfony 3.4
+# Symfony
+Project to test Symfony
