@@ -172,7 +172,6 @@ class User implements UserInterface, EquatableInterface
      */
     public function removeRole($role): self
     {
-
         if ($this->hasRole($role)) {
             unset($this->roles[array_search($role, $this->roles)]);
         }
