@@ -5,7 +5,8 @@ doctrine:
     dbal:
         # configure these for your database server
         driver: '%env(DB_DRIVER)%'
-        server_version: '5.7'
+        # server_version: '5.7'
+        server_version: 'mariadb-10.3.16'
         charset: utf8mb4
         url: 'mysql://%env(DB_USER)%:%env(DB_PASSWORD)%@%env(DB_HOST)%:3306/%env(DB_NAME)%'
     orm:
