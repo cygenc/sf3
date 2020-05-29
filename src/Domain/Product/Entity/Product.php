@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Product\Entity;
 
+use App\Domain\Product\Repository\ProductRepository;
+use App\Traits\ResourceId;
+use App\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Polyfill\Uuid\Uuid;
 
 /**
  * @ORM\Table(name="products")
- * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ * @ORM\Entity(repositoryClass="ProductRepository::class")
  * @ORM\HasLifecycleCallbacks
  */
 class Product
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use ResourceId;
+    use Timestampable;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -53,44 +53,11 @@ class Product
      */
     private $enabled;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $createdBy;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     */
-    private $updatedBy;
-
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new \DateTimeImmutable();
         $this->enabled   = false;
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function update()
-    {
-        $this->updatedAt = new \DateTime();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
+        $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }
 
     public function getName(): ?string
@@ -173,54 +140,6 @@ class Product
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?User
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?User $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    public function getUpdatedBy(): ?User
-    {
-        return $this->updatedBy;
-    }
-
-    public function setUpdatedBy(?User $updatedBy): self
-    {
-        $this->updatedBy = $updatedBy;
 
         return $this;
     }

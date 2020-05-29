@@ -27,8 +27,8 @@
                         <td>{{ product.priceEt|format_currency('EUR') }}</td>
                         <td>{{ product.priceIt|format_currency('EUR') }}</td>
                         <td>
-                            <a href="{{ path('admin_product_edit', {'productId': product.id }) }}"><span class="fas fa-edit text-dark"></span></a>
-                            <a href="{{ path('admin_product_delete', {'productId': product.id, 'csrf': csrf_token('delete-product')}) }}"><span class="fas fa-trash text-danger"></span></a>
+                            <a href="{{ path('admin_product_edit', {'id': product.id }) }}"><span class="fas fa-edit text-dark"></span></a>
+                            <a href="{{ path('admin_product_delete', {'id': product.id, 'csrf': csrf_token('delete-product')}) }}"><span class="fas fa-trash text-danger"></span></a>
                         </td>
                     </tr>
                 {% else %}

@@ -2,9 +2,10 @@
 
 namespace App\Controller\AdminArea;
 
-use App\Entity\Product;
+use App\Domain\Core\Entity\Locale;
+use App\Domain\Product\Entity\Product;
+use App\Domain\Product\Repository\ProductRepository;
 use App\Form\ProductType;
-use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +35,7 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $product->setCreatedBy($this->getUser());
+            // $product->setCreatedBy($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
@@ -50,11 +51,11 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/products/{productId}", name="admin_product_edit"), requirements={"companyId": "\d+"}
+     * @Route("/products/{id}", name="admin_product_edit"), requirements={"id": "\d+"}
      */
-    public function edit(ProductRepository $productRepository, Request $request, $productId)
+    public function edit(ProductRepository $productRepository, Request $request, $id)
     {
-        $product = $productRepository->find($productId);
+        $product = $productRepository->find($id);
 
         if (!$product) {
             throw $this->createNotFoundException('Ce produit n\'existe pas/plus !');
@@ -64,7 +65,7 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $product->setUpdatedBy($this->getUser());
+            // $product->setUpdatedBy($this->getUser());
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'Le produit a été modifié.');
@@ -78,15 +79,15 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/products/{productId}/delete/{csrf}", name="admin_product_delete"), requirements={"companyId": "\d+"}
+     * @Route("/products/{id}/delete/{csrf}", name="admin_product_delete"), requirements={"id": "\d+"}
      */
-    public function delete(ProductRepository $productRepository, $productId, $csrf)
+    public function delete(ProductRepository $productRepository, $id, $csrf)
     {
         if (!$this->isCsrfTokenValid('delete-product', $csrf)) {
             throw new InvalidCsrfTokenException();
         }
 
-        $product = $productRepository->find($productId);
+        $product = $productRepository->find($id);
 
         if (!$product) {
             throw $this->createNotFoundException('Ce produit n\'existe pas/plus !');
