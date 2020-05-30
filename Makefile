@@ -10,6 +10,7 @@ help :
 	@echo "$(COM_COLOR)cc-hard........: Cache clear hard$(NO_COLOR)"
 	@echo "$(COM_COLOR)fixtures.......: Fixtures load$(NO_COLOR)"
 	@echo "$(COM_COLOR)clean-db.......: Clean DB$(NO_COLOR)"
+	@echo "$(COM_COLOR)tests..........: Tests$(NO_COLOR)"
 cc :
 	php bin/console cache:clear
 cc-hard :
@@ -23,3 +24,5 @@ clean-db :
 	php bin/console doctrine:fixtures:load --no-interaction
 csfixer :
 	php vendor/bin/php-cs-fixer fix
+test :
+	./bin/phpunit
