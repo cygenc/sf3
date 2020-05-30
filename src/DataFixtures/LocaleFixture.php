@@ -10,17 +10,28 @@ class LocaleFixture extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $localeFr = (new Locale())
-            ->setCode(Locale::CODE_FR)
-            ->setName(Locale::NAME_FR);
+        $isCreated = false;
 
-        $localeEn = (new Locale())
-            ->setCode(Locale::CODE_EN)
-            ->setName(Locale::NAME_EN);
+        if (!$manager->getRepository(Locale::class)->findOneByCode(Locale::CODE_FR)) {
+            $localeFr = (new Locale())
+                ->setCode(Locale::CODE_FR)
+                ->setName(Locale::NAME_FR);
 
-        $manager->persist($localeFr);
-        $manager->persist($localeEn);
+            $manager->persist($localeFr);
+            $isCreated = true;
+        }
 
-        $manager->flush();
+        if (!$manager->getRepository(Locale::class)->findOneByCode(Locale::CODE_EN)) {
+            $localeEn = (new Locale())
+                ->setCode(Locale::CODE_EN)
+                ->setName(Locale::NAME_EN);
+
+            $manager->persist($localeEn);
+            $isCreated = true;
+        }
+
+        if ($isCreated) {
+            $manager->flush();
+        }
     }
 }

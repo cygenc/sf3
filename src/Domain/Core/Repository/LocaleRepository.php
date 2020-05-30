@@ -2,6 +2,7 @@
 
 namespace App\Domain\Core\Repository;
 
+use App\Domain\Core\Entity\Locale;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

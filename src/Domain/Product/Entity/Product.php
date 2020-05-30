@@ -6,6 +6,7 @@ use App\Domain\Product\Repository\ProductRepository;
 use App\Traits\ResourceId;
 use App\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Polyfill\Uuid\Uuid;
 
 /**
@@ -26,6 +27,7 @@ class Product
     private $name;
 
     /**
+     * @Assert\Unique
      * @ORM\Column(type="string", length=255)
      */
     private $reference;
