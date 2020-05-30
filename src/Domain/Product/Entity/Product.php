@@ -18,6 +18,8 @@ class Product
     use ResourceId;
     use Timestampable;
 
+    const TAX_RULE_STANDARD = 20;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -56,7 +58,7 @@ class Product
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->enabled   = false;
+        $this->enabled   = true;
         $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }
 

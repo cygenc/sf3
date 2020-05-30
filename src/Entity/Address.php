@@ -60,7 +60,7 @@ class Address
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new \DateTimeImmutable();
         $this->isDefault = false;
         $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }

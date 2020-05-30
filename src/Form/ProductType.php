@@ -42,7 +42,7 @@ class ProductType extends AbstractType
                 'readonly' => true
             ],
             'choices' => [
-                'Taux standard (20%)' => 20
+                'Taux standard (20%)' => Product::TAX_RULE_STANDARD
             ],
             'label'   => 'TVA',
         ]);

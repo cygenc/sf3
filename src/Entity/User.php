@@ -92,7 +92,7 @@ class User implements UserInterface, EquatableInterface
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new \DateTimeImmutable();
         $this->enabled   = true;
         $this->roles     = ['ROLE_ADMIN'];
         $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);

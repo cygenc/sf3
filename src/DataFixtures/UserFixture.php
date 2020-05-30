@@ -22,15 +22,12 @@ class UserFixture extends Fixture
     {
         $faker = FakerFactory::create('fr_FR');
 
-        $phoneNumber = str_replace('+33', '0', $faker->mobileNumber);
-        $phoneNumber = str_replace(' ', '', $phoneNumber);
-
         $user = (new User())
             ->setEmail('user@example.org')
             ->setUsername('username')
             ->setFirstName($faker->firstName)
             ->setLastName($faker->lastName)
-            ->setPhoneNumber($phoneNumber)
+            ->setPhoneNumber('06' . $faker->phoneNumber08)
             ->setBirthday((new \DateTime())->modify('-30 years'));
 
         $user = $this->userManager->setPassword($user, 'test');
