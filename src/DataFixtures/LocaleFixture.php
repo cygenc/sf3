@@ -3,11 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Domain\Core\Entity\Locale;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Polyfill\Uuid\Uuid;
 
 class LocaleFixture extends Fixture
 {

@@ -80,6 +80,9 @@
     "doctrine/sql-formatter": {
         "version": "1.0.1"
     },
+    "fzaninotto/faker": {
+        "version": "v1.9.1"
+    },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
     },

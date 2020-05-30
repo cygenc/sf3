@@ -17,17 +17,6 @@ trait Timestampable
      */
     protected $updatedAt;
 
-    // /**
-    //  * @ORM\ManyToOne(targetEntity="App\Entity\User")
-    //  * @ORM\JoinColumn(nullable=false)
-    //  */
-    // protected $createdBy;
-
-    // /**
-    //  * @ORM\ManyToOne(targetEntity="App\Entity\User")
-    //  */
-    // protected $updatedBy;
-
     /**
      * @ORM\PreUpdate
      */
@@ -59,28 +48,4 @@ trait Timestampable
 
         return $this;
     }
-
-    // public function getCreatedBy(): ?User
-    // {
-    //     return $this->createdBy;
-    // }
-
-    // public function setCreatedBy(?User $createdBy): self
-    // {
-    //     $this->createdBy = $createdBy;
-
-    //     return $this;
-    // }
-
-    // public function getUpdatedBy(): ?User
-    // {
-    //     return $this->updatedBy;
-    // }
-
-    // public function setUpdatedBy(?User $updatedBy): self
-    // {
-    //     $this->updatedBy = $updatedBy;
-
-    //     return $this;
-    // }
 }

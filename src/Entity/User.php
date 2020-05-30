@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\ResourceId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,6 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Polyfill\Uuid\Uuid;
+use App\Traits\Timestampable;
 
 /**
  * @ORM\Table(name="users")
@@ -19,12 +22,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, EquatableInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use ResourceId;
+    use Timestampable;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -90,41 +89,19 @@ class User implements UserInterface, EquatableInterface
      */
     private $phoneNumber;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->enabled   = true;
         $this->roles     = ['ROLE_ADMIN'];
+        $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
         // $this->salt      = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function update()
-    {
-        $this->updatedAt = new \DateTime();
     }
 
     public function __toString()
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getEmail(): ?string
@@ -355,30 +332,6 @@ class User implements UserInterface, EquatableInterface
     public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

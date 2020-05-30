@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use App\Traits\ResourceId;
+use App\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Polyfill\Uuid\Uuid;
 
 /**
  * @ORM\Table(name="addresses")
@@ -11,12 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Address
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use ResourceId;
+    use Timestampable;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -51,7 +50,7 @@ class Address
     /**
      * @ORM\Column(type="boolean")
      */
-    private $default;
+    private $isDefault;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="Addresses")
@@ -59,32 +58,11 @@ class Address
      */
     private $user;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function update()
-    {
-        $this->updatedAt = new \DateTime();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
+        $this->isDefault = false;
+        $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }
 
     public function getAlias(): ?string
@@ -161,12 +139,12 @@ class Address
 
     public function isDefault(): ?bool
     {
-        return $this->default;
+        return $this->isDefault;
     }
 
-    public function setDefault(bool $default): self
+    public function setIsDefault(bool $isDefault): self
     {
-        $this->default = $default;
+        $this->isDefault = $isDefault;
 
         return $this;
     }
@@ -179,30 +157,6 @@ class Address
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
