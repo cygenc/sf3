@@ -51,8 +51,10 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userManager->setPassword($user, $user->getPassword());
             $this->addFlash('success', 'Votre compte a été créé avec succès.');
+
             return $this->redirectToRoute('index');
         }
+
         return $this->render('security/register.html.twig', [
             'form' => $form->createView(),
         ]);

@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use App\Entity\User;
-use App\Security\UserProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,12 +33,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, UserProvider $userProvider, Security $security)
     {
-        $this->entityManager    = $entityManager;
-        $this->urlGenerator     = $urlGenerator;
+        $this->entityManager = $entityManager;
+        $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder  = $passwordEncoder;
-        $this->userProvider     = $userProvider;
-        $this->security         = $security;
+        $this->passwordEncoder = $passwordEncoder;
+        $this->userProvider = $userProvider;
+        $this->security = $security;
     }
 
     public function supports(Request $request)

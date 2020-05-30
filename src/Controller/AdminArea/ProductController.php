@@ -2,7 +2,6 @@
 
 namespace App\Controller\AdminArea;
 
-use App\Domain\Core\Entity\Locale;
 use App\Domain\Product\Entity\Product;
 use App\Domain\Product\Repository\ProductRepository;
 use App\Form\ProductType;
@@ -31,7 +30,7 @@ class ProductController extends AbstractController
     public function add(Request $request)
     {
         $product = new Product();
-        $form    = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

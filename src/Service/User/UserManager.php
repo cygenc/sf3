@@ -14,7 +14,7 @@ class UserManager
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository)
     {
         $this->passwordEncoder = $passwordEncoder;
-        $this->userRepository  = $userRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function setPassword(User $user, string $password): User

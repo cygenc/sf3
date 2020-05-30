@@ -2,8 +2,6 @@
 
 namespace App\Domain\Core\Entity;
 
-use App\Domain\Core\Entity\Locale;
-
 abstract class AbstractTranslation
 {
     public function getValue(): ?string

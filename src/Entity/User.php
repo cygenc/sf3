@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Traits\ResourceId;
+use App\Traits\Timestampable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +12,6 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Polyfill\Uuid\Uuid;
-use App\Traits\Timestampable;
 
 /**
  * @ORM\Table(name="users")
@@ -93,15 +93,15 @@ class User implements UserInterface, EquatableInterface
     {
         $this->addresses = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
-        $this->enabled   = true;
-        $this->roles     = ['ROLE_ADMIN'];
-        $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
+        $this->enabled = true;
+        $this->roles = ['ROLE_ADMIN'];
+        $this->uuid = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
         // $this->salt      = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 
     public function __toString()
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     public function getEmail(): ?string
@@ -142,8 +142,7 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * @param  string $role
-     * @return self
+     * @param string $role
      */
     public function removeRole($role): self
     {
@@ -200,9 +199,6 @@ class User implements UserInterface, EquatableInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return boolean
-     */
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof User) {

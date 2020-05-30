@@ -27,19 +27,27 @@ class UserFixture extends Fixture
             ->setUsername('username')
             ->setFirstName($faker->firstName)
             ->setLastName($faker->lastName)
-            ->setPhoneNumber('06' . $faker->phoneNumber08)
-            ->setBirthday((new \DateTime())->modify('-30 years'));
+            ->setPhoneNumber('06'.$faker->phoneNumber08)
+            ->setBirthday($faker->dateTimeInInterval('-50 years', '-18 years'));
 
         $user = $this->userManager->setPassword($user, 'test');
 
-        $address = (new Address())
-            ->setAlias('Maison')
+        $homeAddress = (new Address())
+            ->setAlias('Home')
             ->setAddress('55 Rue du Commerce')
             ->setCity('Paris')
             ->setZipCode('75001')
             ->setCountry('FR');
 
-        $user->addAddress($address);
+        $workAddress = (new Address())
+            ->setAlias('Work')
+            ->setAddress('119 Rue du la Paie')
+            ->setCity('Paris')
+            ->setZipCode('75003')
+            ->setCountry('FR');
+
+        $user->addAddress($homeAddress);
+        $user->addAddress($workAddress);
 
         $manager->persist($user);
         $manager->flush();

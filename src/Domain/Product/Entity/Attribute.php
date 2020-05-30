@@ -21,21 +21,20 @@ class Attribute
     use ResourceId;
     use Timestampable;
 
-    const CODE_COLOR       = 'attr_color';
-    const CODE_DEPTH       = 'attr_depth';
+    const CODE_COLOR = 'attr_color';
+    const CODE_DEPTH = 'attr_depth';
     const CODE_DESCRIPTION = 'attr_description';
-    const CODE_EAN         = 'attr_ean';
-    const CODE_HEIGHT      = 'attr_height';
-    const CODE_MADE_IN     = 'attr_made_in';
-    const CODE_MATERIAL    = 'attr_material';
-    const CODE_MEDIA       = 'attr_media';
-    const CODE_NAME        = 'attr_name';
-    const CODE_REFERENCE   = 'attr_reference';
-    const CODE_STYLE       = 'attr_style';
-    const CODE_TYPE        = 'attr_type';
-    const CODE_WEIGHT      = 'attr_weight';
-    const CODE_WIDTH       = 'attr_width';
-
+    const CODE_EAN = 'attr_ean';
+    const CODE_HEIGHT = 'attr_height';
+    const CODE_MADE_IN = 'attr_made_in';
+    const CODE_MATERIAL = 'attr_material';
+    const CODE_MEDIA = 'attr_media';
+    const CODE_NAME = 'attr_name';
+    const CODE_REFERENCE = 'attr_reference';
+    const CODE_STYLE = 'attr_style';
+    const CODE_TYPE = 'attr_type';
+    const CODE_WEIGHT = 'attr_weight';
+    const CODE_WIDTH = 'attr_width';
 
     // const CODE_ARCHIVED                  = 'attr_archived';
     // const CODE_BATTERY_TYPE              = 'attr_battery_type';
@@ -112,8 +111,8 @@ class Attribute
     public function __construct()
     {
         $this->attributeTranslations = new ArrayCollection();
-        $this->createdAt             = new \DateTimeImmutable();
-        $this->uuid                  = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
+        $this->createdAt = new \DateTimeImmutable();
+        $this->uuid = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }
 
     public function getCode(): ?string

@@ -3,18 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Address;
-use App\Entity\User;
 use App\Form\AddressesType;
 use App\Form\ChangePasswordType;
 use App\Form\ProfileType;
-use App\Form\RegisterType;
 use App\Form\UsernameType;
 use App\Service\User\UserHelper;
 use App\Service\User\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
@@ -31,11 +28,12 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Le profil a été mis à jour.');
+
             return $this->redirect($request->getUri());
         }
 
         return $this->render('user/profile.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -53,11 +51,12 @@ class UserController extends AbstractController
             $newPassword = $form->get('newPassword')->getData();
             $userManager->setPassword($this->getUser(), $newPassword);
             $this->addFlash('success', 'Votre mot de passe à bien été changé.');
+
             return $this->redirect($request->getUri());
         }
 
         return $this->render('user/change_password.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -71,7 +70,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         if (!$user->getAddresses()->getValues()) {
-            $address = (new Address)->setDefault(true);
+            $address = (new Address())->setDefault(true);
             $user->addAddress($address);
         }
 
@@ -81,11 +80,12 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Les adresses ont été mise à jour.');
+
             return $this->redirect($request->getUri());
         }
 
         return $this->render('user/addresses.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -105,6 +105,7 @@ class UserController extends AbstractController
             if ($userHelper->isPasswordValid($user, $password)) {
                 $this->getDoctrine()->getManager()->flush();
                 $this->addFlash('success', 'Les identifiants de connexion ont été mis à jour.');
+
                 return $this->redirect($request->getUri());
             } else {
                 $this->addFlash('danger', 'Mot de passe incorrect.');
@@ -112,7 +113,7 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/username.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

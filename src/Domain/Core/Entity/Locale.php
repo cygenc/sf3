@@ -41,7 +41,7 @@ class Locale
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
+        $this->uuid = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }
 
     public function getCode(): ?string

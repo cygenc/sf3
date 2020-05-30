@@ -62,7 +62,7 @@ class Address
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->isDefault = false;
-        $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
+        $this->uuid = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }
 
     public function getAlias(): ?string

@@ -6,8 +6,6 @@ use App\Domain\Product\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\PercentType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,23 +26,23 @@ class ProductType extends AbstractType
         ]);
         $builder->add('priceEt', MoneyType::class, [
             'currency' => 'EUR',
-            'label'    => 'Prix HT',
+            'label' => 'Prix HT',
         ]);
         $builder->add('priceIt', MoneyType::class, [
-            'attr'     => [
-                'readonly' => true
+            'attr' => [
+                'readonly' => true,
             ],
             'currency' => 'EUR',
-            'label'    => 'Prix TTC',
+            'label' => 'Prix TTC',
         ]);
         $builder->add('taxRule', ChoiceType::class, [
-            'attr'    => [
-                'readonly' => true
+            'attr' => [
+                'readonly' => true,
             ],
             'choices' => [
-                'Taux standard (20%)' => Product::TAX_RULE_STANDARD
+                'Taux standard (20%)' => Product::TAX_RULE_STANDARD,
             ],
-            'label'   => 'TVA',
+            'label' => 'TVA',
         ]);
     }
 

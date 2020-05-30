@@ -9,7 +9,6 @@ use App\Traits\ResourceId;
 use App\Traits\Timestampable;
 // use Symfony\Component\Intl\Locale;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Polyfill\Uuid\Uuid;
 
 /**
@@ -42,7 +41,7 @@ class AttributeTranslation extends AbstractTranslation
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
+        $this->uuid = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }
 
     public function getAttribute(): ?Attribute

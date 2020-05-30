@@ -37,9 +37,7 @@ class UserProvider implements UserProviderInterface
             return $user;
         }
 
-        throw new UsernameNotFoundException(
-            sprintf('Username "%s" does not exist.', $username)
-        );
+        throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
     }
 
     /**

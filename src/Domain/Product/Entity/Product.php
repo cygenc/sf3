@@ -58,8 +58,8 @@ class Product
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->enabled   = true;
-        $this->uuid      = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
+        $this->enabled = true;
+        $this->uuid = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
     }
 
     public function getName(): ?string

@@ -14,7 +14,7 @@ class UserHelper
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function isPasswordValid(User $user, string $password): Bool
+    public function isPasswordValid(User $user, string $password): bool
     {
         return $this->passwordEncoder->isPasswordValid($user, $password);
     }
