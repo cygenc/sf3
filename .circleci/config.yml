@@ -70,9 +70,13 @@ jobs:
           command: |
             php bin/console lint:yaml ./config && \
             php bin/console lint:twig ./templates
-    #   - run:
-    #       name: Tests
-    #       command: ./vendor/bin/simple-phpunit --log-junit ~/phpunit/junit.xml
+      - run:
+          name: Tests
+          command: ./vendor/bin/simple-phpunit --log-junit ~/phpunit/junit.xml
+      - store_test_results:
+          path: tests/_output
+      - store_artifacts:
+          path: tests/_output
 
 workflows:
   version: 2
