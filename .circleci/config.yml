@@ -74,9 +74,11 @@ jobs:
           name: Tests
           command: ./vendor/bin/simple-phpunit --log-junit ~/phpunit/junit.xml
       - store_test_results:
-          path: tests/_output
+          path: test-results
+        #   path: ~/phpunit
       - store_artifacts:
-          path: tests/_output
+          path: artifacts
+        #   path: ~/phpunit
 
 workflows:
   version: 2
