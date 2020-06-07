@@ -64,7 +64,7 @@ jobs:
           name: Run web server in background
           command: symfony server:start -d --no-tls
           background: true
-      -run: symfony server:log
+      - run: symfony server:log
       # Testing
       - run:
           name: Lint
