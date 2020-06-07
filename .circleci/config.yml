@@ -21,7 +21,7 @@ jobs:
           command: sudo apt update && sudo apt -y install git unzip zlib1g-dev
       - run:
           name: Install PHP Extensions
-          command: sudo docker-php-ext-install zip pdo pdo_mysql bcmath
+          command: sudo docker-php-ext-install zip pdo pdo_mysql bcmath xdebug
       - run:
           name: Install Symfony Cli
           command: |
@@ -64,7 +64,6 @@ jobs:
           name: Run web server in background
           command: symfony server:start -d --no-tls
           background: true
-      - run: symfony server:log
       # Testing
       - run:
           name: Lint
