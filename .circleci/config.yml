@@ -64,6 +64,7 @@ jobs:
           name: Run web server in background
           command: symfony server:start -d --no-tls
           background: true
+      -run: symfony server:log
       # Testing
       - run:
           name: Lint
@@ -74,11 +75,11 @@ jobs:
           name: Tests
           command: ./vendor/bin/simple-phpunit --log-junit ~/phpunit/junit.xml
       - store_test_results:
-          path: test-results
-        #   path: ~/phpunit
+        #   path: test-results
+          path: ~/phpunit
       - store_artifacts:
-          path: artifacts
-        #   path: ~/phpunit
+        #   path: artifacts
+          path: ~/phpunit
 
 workflows:
   version: 2

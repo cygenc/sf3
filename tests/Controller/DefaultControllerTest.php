@@ -8,6 +8,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultControllerTest extends WebTestCase
 {
+    public function testCalcul()
+    {
+        $this->assertTrue(true);
+    }
+
     /**
      * @dataProvider provideUrls
      */
