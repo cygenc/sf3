@@ -29,6 +29,7 @@ class Locale
      * @Assert\Locale(
      *     canonicalize = true
      * )
+     * @Assert\Unique
      * @ORM\Column(type="string", length=50)
      */
     private $code;

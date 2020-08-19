@@ -53,8 +53,8 @@ class Address
     private $isDefault;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="Addresses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="addresses")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 

@@ -23,12 +23,22 @@ class UserFixture extends Fixture
         $faker = FakerFactory::create('fr_FR');
 
         $user = (new User())
-            ->setEmail('user@example.org')
-            ->setUsername('username')
             ->setFirstName($faker->firstName)
             ->setLastName($faker->lastName)
             ->setPhoneNumber('06'.$faker->phoneNumber08)
             ->setBirthday($faker->dateTimeInInterval('-50 years', '-18 years'));
+
+        if ($username = $manager->getRepository(User::class)->loadUserByUsername('user@example.org')) {
+            $user
+                ->setEmail($faker->safeEmail)
+                ->setUsername($faker->userName)
+                ->addRole('ROLE_USER');
+        } else {
+            $user
+                ->setEmail('user@example.org')
+                ->setUsername('username')
+                ->addRole('ROLE_ADMIN');
+        }
 
         $user = $this->userManager->setPassword($user, 'test');
 

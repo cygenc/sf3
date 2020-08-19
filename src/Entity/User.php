@@ -94,7 +94,6 @@ class User implements UserInterface, EquatableInterface
         $this->addresses = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->enabled = true;
-        $this->roles = ['ROLE_ADMIN'];
         $this->uuid = Uuid::uuid_create(Uuid::UUID_TYPE_TIME);
         // $this->salt      = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }

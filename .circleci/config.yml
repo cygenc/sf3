@@ -1,60 +1,170 @@
-# PHP CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-php/ for more details
-#
 version: 2
 jobs:
   build:
+    working_directory: ~/sf
     docker:
       - image: circleci/php:7.4.6
+    #   - image: circleci/mariadb:10.3.16
+    #     environment:
+        #   DB_PASSWORD: root
+        #   MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        #   MYSQL_ROOT_PASSWORD: rootpw
+        #   MYSQL_HOST: localhost
+        #   MYSQL_DATABASE: gcommerce
+        #   MYSQL_USER: root
+        #   MYSQL_PASSWORD: root
     steps:
       - checkout
-      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
-      # Download and cache dependencies
+      # Installation
+      - run:
+          name: Install System Packages
+          command: sudo apt update && sudo apt -y install git unzip zlib1g-dev
+      - run:
+          name: Install PHP Extensions
+          command: sudo docker-php-ext-install zip pdo pdo_mysql bcmath xdebug
+      - run:
+          name: Install Symfony Cli
+          command: |
+              wget https://get.symfony.com/cli/installer -O - | bash && \
+              sudo mv /home/circleci/.symfony/bin/symfony /usr/local/bin/symfony
+      - run:
+          name: Install Composer
+          command: |
+            php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+            php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+            php composer-setup.php && \
+            php -r "unlink('composer-setup.php');" && \
+            chmod +x ./composer.phar && \
+            mv ./composer.phar /usr/local/bin/composer
+      # Dependencies
       - restore_cache:
-          keys:
-            # "composer.lock" can be used if it is committed to the repo
-            - v1-dependencies-{{ checksum "composer.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run: composer install -n --prefer-dist
-      - run: composer validate
+          key: sf-{{ .Branch }}-{{ checksum "./composer.lock" }}-v1
+      - run: composer install --prefer-dist --no-interaction
+      # Force pulling Simple PHPUnit dependencies to be able to cache them as well
+      - run: ./vendor/bin/simple-phpunit --version
       - save_cache:
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          key: sf-{{ .Branch }}-{{ checksum "./composer.json" }}-v1
           paths:
-            - ./vendor
-      - restore_cache:
-          keys:
-            - node-v1-{{ checksum "package.json" }}
-            - node-v1-
-    #   - run: yarn install
-      - save_cache:
-          key: node-v1-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-            - ~/.yarn
-
-      # prepare the database
-    #   - run: touch storage/testing.sqlite
-    #   - run: php artisan migrate --env=testing --database=sqlite_testing --force
-
-  test:
-    docker:
-      - image: circleci/php:7.4.6
-    steps:
-      - checkout
-      - run: composer install -n --prefer-dist
-      - run: composer require --dev phpunit/phpunit ^9
-      - run: ./vendor/bin/phpunit
+            - '/root/.composer/cache'
+            - './vendor'
+    #   - run:
+    #       name: Install dockerize
+    #       command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+    #       environment:
+    #         DOCKERIZE_VERSION: v0.6.1
+    #   - run:
+    #       name: Wait for db
+    #       command: dockerize -wait tcp://localhost:3306 -timeout 10m
+    #   - run: sudo apt install mariadb-server
+    #   # Database
+    #   - run: php bin/console doctrine:database:create --env=test
+    #   - run: php bin/console doctrine:schema:create --env=test
+    #   - run: php bin/console doctrine:fixtures:load --no-interaction
+      - run:
+          name: Run web server in background
+          command: symfony server:start -d --no-tls
+          background: true
+      # Testing
+      - run:
+          name: Lint
+          command: |
+            php bin/console lint:yaml ./config && \
+            php bin/console lint:twig ./templates
+      - run:
+          name: Tests
+          command: ./vendor/bin/simple-phpunit --log-junit ~/phpunit/junit.xml
       - store_test_results:
-          path: tests/_output
+        #   path: test-results
+          path: ~/phpunit
       - store_artifacts:
-          path: tests/_output
+        #   path: artifacts
+          path: ~/phpunit
 
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - test
+
+# # PHP CircleCI 2.0 configuration file
+# #
+# # Check https://circleci.com/docs/2.0/language-php/ for more details
+# #
+# version: 2
+# jobs:
+#   build:
+#     docker:
+#       - image: circleci/php:7.4.6
+#       - image: circleci/mariadb:10.3.16
+#         environment:
+#           MYSQL_ROOT_PASSWORD: root
+#           MYSQL_DATABASE: gcommerce_test
+#           MYSQL_USER: root
+#           MYSQL_PASSWORD: root
+#     steps:
+#       - checkout
+#       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+#       - run: sudo docker-php-ext-install zip
+#       # Download and cache dependencies
+#       - restore_cache:
+#           keys:
+#             # "composer.lock" can be used if it is committed to the repo
+#             - v1-dependencies-{{ checksum "composer.json" }}
+#             # fallback to using the latest cache if no exact match is found
+#             - v1-dependencies-
+#       - run: composer install -n --prefer-dist
+#       - run: composer validate
+#       - save_cache:
+#           key: v1-dependencies-{{ checksum "composer.json" }}
+#           paths:
+#             - ./vendor
+#       - restore_cache:
+#           keys:
+#             - node-v1-{{ checksum "package.json" }}
+#             - node-v1-
+#     #   - run: yarn install
+#       - save_cache:
+#           key: node-v1-{{ checksum "package.json" }}
+#           paths:
+#             - node_modules
+#             - ~/.yarn
+
+#       # prepare the database
+#     #   - run: touch storage/testing.sqlite
+#     #   - run: php artisan migrate --env=testing --database=sqlite_testing --force
+
+#       - run:
+#       # Our primary container isn't MYSQL so run a sleep command until it's ready.
+#           name: Waiting for mariadb to be ready
+#           command: |
+#             for i in `seq 1 10`;
+#             do
+#               nc -z 127.0.0.1 3306 && echo Success && exit 0
+#               echo -n .
+#               sleep 1
+#             done
+#             echo Failed waiting for mariadb && exit 1
+
+#       - run: sudo apt install mariadb-server
+#       - run: php bin/console doctrine:database:create
+#       - run: php bin/console doctrine:migrations:migrate --no-interaction
+#       - run: php bin/console doctrine:fixtures:load --no-interaction
+
+#   test:
+#     docker:
+#       - image: circleci/php:7.4.6
+#     steps:
+#       - checkout
+#       - run: composer install -n --prefer-dist
+#       - run: php bin/phpunit
+#       - store_test_results:
+#           path: tests/_output
+#       - store_artifacts:
+#           path: tests/_output
+
+# workflows:
+#   version: 2
+#   build_and_test:
+#     jobs:
+#       - build
+#       - test

@@ -22,7 +22,12 @@ clean-db :
 	php bin/console doctrine:database:create
 	php bin/console doctrine:migrations:migrate --no-interaction
 	php bin/console doctrine:fixtures:load --no-interaction
+clean-vendor:
+	cc-hard
+	rm -Rf vendor
+	rm composer.lock
+	composer install
 csfixer :
 	php vendor/bin/php-cs-fixer fix
 test :
-	./bin/phpunit
+	php bin/phpunit --coverage-html ./coverage
