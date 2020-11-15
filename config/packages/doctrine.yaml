@@ -3,11 +3,15 @@ parameters:
 
 doctrine:
     dbal:
-        # configure these for your database server
-        driver: '%env(DB_DRIVER)%'
-        server_version: 'mariadb-10.3.16'
-        charset: utf8mb4
-        url: 'mysql://%env(DB_USER)%:%env(DB_PASSWORD)%@%env(DB_HOST)%:3306/%env(DB_NAME)%'
+        dbname: '%env(MYSQL_DATABASE)%'
+        host: '%env(MYSQL_HOST)%'
+        port: '%env(MYSQL_PORT)%'
+        user: '%env(MYSQL_USER)%'
+        password: '%env(MYSQL_PASSWORD)%'
+        driver: pdo_mysql
+        charset: UTF8
+        server_version: mariadb-10.5.5
+        url: 'mysql://%env(MYSQL_USER)%:%env(MYSQL_PASSWORD)%@%env(MYSQL_HOST)%:%env(MYSQL_PORT)%/%env(MYSQL_DATABASE)%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
